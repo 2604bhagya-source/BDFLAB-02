@@ -1,0 +1,102 @@
+{
+  "info": {
+    "_postman_id": "bc8a77c2-9aad-4eab-a840-0aaee6b52f20",
+    "name": "Lab 2 - Books CRUD API",
+    "description": "Five requests for testing the Lab 2 Express and SQLite books API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get all books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/books"
+      }
+    },
+    {
+      "name": "Get book by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/books/1"
+      }
+    },
+    {
+      "name": "Create a book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Book created', function () {",
+              "    pm.response.to.have.status(201);",
+              "    pm.collectionVariables.set('bookId', pm.response.json().book.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"The Alchemist\",\n  \"author\": \"Paulo Coelho\",\n  \"price\": 350,\n  \"pages\": 208\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/books"
+      }
+    },
+    {
+      "name": "Update a book",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Book Title\",\n  \"author\": \"Updated Author\",\n  \"price\": 450,\n  \"pages\": 300\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/books/{{bookId}}"
+      }
+    },
+    {
+      "name": "Delete a book",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/books/{{bookId}}"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "bookId",
+      "value": "1"
+    }
+  ]
+}
